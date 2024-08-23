@@ -9,7 +9,8 @@ class Game
   end
 
   def play()
-    while @guesses_left > 0 || not(@done)
+    while @guesses_left > 0 and not(@done)
+      puts("Your guesses: " + @guesses.join(", "))
       make_guess
       puts(review_guesses)
       puts(stickman(6 - @guesses_left))
