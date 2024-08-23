@@ -1,6 +1,8 @@
-industry
-a
+dividend
+b
 e
 i
 o
-6
+a
+m
+5

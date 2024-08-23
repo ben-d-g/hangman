@@ -11,7 +11,7 @@ class Game
   def play()
     puts("Load game? (y/n) >>")
     if gets.chomp == "y"
-      #loads
+      load_game
     end
     while @guesses_left > 0 and not(@done)
       puts("Your guesses: " + @guesses.join(", "))
@@ -32,6 +32,21 @@ class Game
       file.puts(@guesses)
       file.puts(@guesses_left)
     end
+  end
+
+  def load_game()
+    lines = File.readlines("save_file.txt")
+    lines.each_with_index do |line, index|
+      if index == 0
+        @word = line
+      elsif index == lines.length - 1
+        @guesses_left = line.to_i
+      else
+        @guesses.push(line[0])
+      end
+    end
+    puts(review_guesses)
+    puts(stickman(9 - @guesses_left))
   end
 
   def get_guess_input()
@@ -132,7 +147,7 @@ class Game
 " ____
 |/   |
 |   (_)
-|   \|
+|   -|
 |    |
 |    
 |
@@ -140,7 +155,7 @@ class Game
 " ____
 |/   |
 |   (_)
-|   \|/
+|   -|-
 |    |
 |    
 |
@@ -148,17 +163,17 @@ class Game
 " ____
 |/   |
 |   (_)
-|   \|/
+|   -|-
 |    |
-|   / 
+|   | 
 |
 |_____",
 "____
 |/   |
 |   (_)
-|   \|/
+|   -|-
 |    |
-|   / \
+|   | |
 |
 |_____"]
     return stickmen[guesses]
