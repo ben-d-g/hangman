@@ -3,3 +3,4 @@ require_relative("lib/game")
 
 game = Game.new
 p(game.get_word)
+puts(game.stickman(2))
