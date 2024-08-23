@@ -3,23 +3,45 @@ require_relative("dictionary")
 class Game
   def initialize
     @word = get_random_word
-    @guesses_left = 6
+    @guesses_left = 9
     @guesses = []
     @done = false
   end
 
   def play()
+    puts("Load game? (y/n) >>")
+    if gets.chomp == "y"
+      #loads
+    end
     while @guesses_left > 0 and not(@done)
       puts("Your guesses: " + @guesses.join(", "))
-      make_guess
+      if make_guess == "save"
+        break
+      end
       puts(review_guesses)
-      puts(stickman(6 - @guesses_left))
+      puts(stickman(9 - @guesses_left))
+    end
+  end
+
+  def save_game()
+    if File.exist?("save_game.txt")
+      File.delete("save_game.txt")
+    end
+    File.open("save_file.txt", "w") do |file|
+      file.puts(@word)
+      file.puts(@guesses)
+      file.puts(@guesses_left)
     end
   end
 
   def get_guess_input()
     puts("Enter your guess >>")
     input_string = gets.chomp.downcase
+    #check if 'save' entered
+    if input_string == "save"
+      save_game
+      return input_string
+    end
     #validate input
     until "abcdefghijklmnopqrstuvwxyz".include?(input_string)
       puts("Input must be a single letter. Enter another guess >>")
@@ -30,6 +52,9 @@ class Game
 
   def make_guess()
     guess_input = get_guess_input
+    if guess_input == "save"
+      return "save"
+    end
     @guesses.push(guess_input)
     #reduce guesses_left
     unless @word.include?(guess_input)
@@ -56,7 +81,31 @@ class Game
   end
 
   def stickman(guesses)
-    stickmen = ["____
+    stickmen = ["    
+      
+    
+     
+     
+     
+ 
+      ",
+"    
+      
+    
+     
+     
+     
+ 
+ _____",
+"    
+|/   
+|   
+|    
+|    
+|    
+|
+|_____",
+"____
 |/   |
 |   
 |    
